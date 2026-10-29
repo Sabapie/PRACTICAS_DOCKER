@@ -5,7 +5,7 @@
 # Ahora si, configuramos el contenedor 
 1. Creamos el contenedor y configuramos el puerto 80 (la imagen sera nginx)
 
-``docker container create --name alpine-serve -it -p 8080:80 nginx:alpine``
+``docker container create --name alpine-server -it -p 8080:80 nginx:alpine``
 
 2. Comprobamos que existe nuestro contenedor
 
@@ -13,7 +13,24 @@
 
 3. Iniciamos el contenedor
 
-``docker start -ai alpine_server``
+``docker start -ai alpine-server``
 
 # Movemos el archico html de cuestro proyecto a la carpeta del contenedor
 ``saba@saba-VirtualBox:~/Desktop/PRACTICAS_DOCKER/P01 - Servidor HTML$ docker cp ./html/index.html alpine-server:/usr/share/nginx/html``
+
+# Comprovamos si existe
+``docker exec -it  alpine-server bin/sh``
+
+En terminal -   
+``cd /usr/share/nginx/html``
+``ls -l``
+
+# Comprovar logs
+``docker logs -f alpine-server``
+
+
+
+
+# Crear imagen propia y la guardamos
+ ``docker commit -a "David Sabater" alpine-server dsp/web-server:1.0``
+ ``docker save -o dsp/web-server.tar web-server:1.0``
