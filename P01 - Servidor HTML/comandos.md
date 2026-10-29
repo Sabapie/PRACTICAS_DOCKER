@@ -34,3 +34,18 @@ En terminal -
 # Crear imagen propia y la guardamos
  ``docker commit -a "David Sabater" alpine-server dsp/web-server:1.0``
  ``docker save -o dsp/web-server.tar web-server:1.0``
+
+ # Borramos la imagen y el contenedor
+ ``docker rmi <id>``
+ ``docker stop alpine-server``
+ ``docker rm alpine-server``
+
+ # Reimportamos la imagen del archivo .tar
+ ``docker load --input web-server.tar``
+
+ # Creamos un contenedor rapido para comprobar que funciona
+ ``docker run --rm -p 8080:80 dsp/web-server:1.0``
+
+ # Crear la imagen a partir de instrucciones Dockerfile
+ ``docker build -t dsp/web-server:1.0 .``
+ ``docker run --rm -p 8080:80 dsp/web-server:1.0``
