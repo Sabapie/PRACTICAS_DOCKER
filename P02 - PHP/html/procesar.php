@@ -1,34 +1,50 @@
 <?php
-// Recoger los datos enviados mediante GET
-$nombre = $_GET["nombre"] ?? "";
-$correo = $_GET["correo"] ?? "";
-$turno = $_GET["turno"] ?? "";
-$actividad = $_GET["actividad"] ?? "";
+// Recoger los datos enviados mediante POST
+$nombre = $_POST["nombre"] ?? "";
+$correo = $_POST["correo"] ?? "";
+$turno = $_POST["turno"] ?? "";
+$actividad = $_POST["actividad"] ?? "";
 
 // Las casillas no marcadas no se envían en el formulario
-$portatil = isset($_GET["portatil"]);
+$portatil = isset($_POST["portatil"]);
+$auriculares = isset($_POST["auriculares"]);
+$material = isset($_POST["material"]);
+
 
 // Evitar insertar directamente datos del usuario en el HTML
 function limpiar($dato) {
     return htmlspecialchars($dato, ENT_QUOTES, "UTF-8");
 }
 
-// Traducir el código del curso a un texto descriptivo
-$cursos = [
-    "ASIR" => "Administración de Sistemas Informáticos en Red",
-    "DAM"  => "Desarrollo de Aplicaciones Multiplataforma",
-    "DAW"  => "Desarrollo de Aplicaciones Web"
+$precios_individuales = [
+    "portatil" => 10,
+    "auriculares"  => 5,
+    "material"  => 2,
 ];
 
-$nombreCurso = $cursos[$curso] ?? "No especificado";
+$preciofinal = 0;
+
+if (!$portatil)    $preciofinal += $precios_individuales["portatil"];
+if (!$auriculares) $preciofinal += $precios_individuales["auriculares"];
+if (!$material)    $preciofinal += $precios_individuales["material"];
+
+// Traducir el código de turno a un texto descriptivo
+$turnos = [
+    "Mañana" => "Turno de mañana",
+    "Tarde"  => "Turno de tarde",
+];
+
+$nombreTurno = $turnos[$turno] ?? "No especificado";
 
 // Traducir el nivel a un texto descriptivo
-$niveles = [
-    "1" => "Primero",
-    "2" => "Segundo"
+$actividades = [
+    "1" => "Robótica",
+    "2" => "Desarrollo de videojuegos",
+    "3" => "Ciberseguridad",
+    "4" => "Diseño e impresión 3D"
 ];
 
-$nombreNivel = $niveles[$nivel] ?? "No especificado";
+$nombreActividad = $actividades[$actividad] ?? "No especificado";
 ?>
 
 <!DOCTYPE html>
@@ -63,19 +79,38 @@ $nombreNivel = $niveles[$nivel] ?? "No especificado";
             </div>
 
             <div class="dato">
-                <span class="etiqueta">Ciclo formativo:</span>
-                <span><?= limpiar($nombreCurso) ?></span>
+                <span class="etiqueta">Turno formativo:</span>
+                <span><?= limpiar($turno) ?></span>
             </div>
 
             <div class="dato">
-                <span class="etiqueta">Curso:</span>
-                <span><?= limpiar($nombreNivel) ?></span>
+                <span class="etiqueta">Actividad:</span>
+                <span><?= limpiar($nombreActividad) ?></span>
             </div>
 
             <div class="dato">
                 <span class="etiqueta">Ordenador portátil propio:</span>
                 <span>
                     <?= $portatil ? "Sí" : "No" ?>
+                </span>
+            </div>
+                        <div class="dato">
+                <span class="etiqueta">Auriculares propios:</span>
+                <span>
+                    <?= $auriculares ? "Sí" : "No" ?>
+                </span>
+            </div>
+                        <div class="dato">
+                <span class="etiqueta">Material de escritura propio:</span>
+                <span>
+                    <?= $material ? "Sí" : "No" ?>
+                </span>
+            </div>
+
+            <div class=observaciones> 
+                <span class="etiqueta">Observación:</span>
+                <span>
+                    <?= $preciofinal > 0? "El precio de los productos sera de $preciofinal €" : "Tienes todo lo que necesitas" ?>
                 </span>
             </div>
 
