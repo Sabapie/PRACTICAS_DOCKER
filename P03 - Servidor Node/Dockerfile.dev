@@ -1,5 +1,7 @@
 FROM node:24
 
+RUN mkdir -p /home/app
+
 WORKDIR /home/app
 
 # Instalar nodemon globalmente
@@ -12,7 +14,7 @@ COPY ./node /home/app
 RUN npm install
 
 # Copiar el resto del proyecto
-#COPY ./node/package*.json /home/app
+COPY . .
 
 EXPOSE 3000
 
