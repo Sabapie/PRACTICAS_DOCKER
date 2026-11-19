@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { request } from 'express'
 import mongoose from 'mongoose'
 
 //const Animal = mongoose.model('Animal', new mongoose.Schema({
@@ -20,5 +20,104 @@ app.get('/', async (_req, res) => {
 //  await Animal.create({ tipo: 'animalico', estado: 'Feliz' })
 //  return res.send('ok')
 //})
+
+
+app.get('/alumnos/:id', async (_req, res) => {
+  const id = _req.params.id
+  console.log(`consultando alumno ${id}`)
+  //const animales = await Animal.find();
+  return res.send(`Alumno nº ${id}`)
+})
+
+app.get('/alumno', async (_req, res) => {
+  const nombre = _req.query.nombre;
+  console.log(`Alumno: ${nombre}`)
+  //const animales = await Animal.find();
+  return res.send(`Nombre del alumno, ${nombre}`)
+})
+
+//RANDOM
+app.get('/random', async (_req, res) => {
+  const num = Math.floor(Math.random() * (100 + 1));
+  console.log(`${num}`)
+  //const animales = await Animal.find();
+  return res.send(`NUmero random: ${num}`)
+})
+
+//FECHA ACTUAL
+app.get('/date', async (_req, res) => {
+  const actualDate = new Date().toLocaleDateString("es-ES");
+  console.log(`Date: ${actualDate}`)
+  //const animales = await Animal.find();
+  return res.send(`Fecha actual: ${actualDate}`)
+})
+
+//EXAMENES /:ID
+app.get('/examenes/:id', async (_req, res) => {
+  const examList = [{
+    id: 1,
+    nombre: 'PSP'
+  },
+  {
+    id: 2,
+    nombre: 'ACCD'
+  },
+  {
+    id: 3,
+    nombre: 'DESP'
+  },
+  {
+    id: 4,
+    nombre: 'SERV'
+  }];
+
+  const id = _req.params.id
+  console.log(`Result - ${examList[id - 1].nombre}`)
+  //const animales = await Animal.find();
+  return res.send(`Asignatura del examen nº${id}: ${examList[id - 1].nombre}`)
+})
+
+//EXAMENES / nombre?=
+app.get('/examenes/', async (_req, res) => {
+  const examList = [{
+    nombre: 'PSP',
+    fecha: '11-11-2026'
+
+  },
+  {
+    nombre: 'ACCD',
+    fecha: '20-11-2026'
+  },
+  {
+    nombre: 'DESP',
+    fecha: '25-11-2026'
+  },
+  {
+    nombre: 'SERV',
+    fecha: '06-11-2026'
+  }];
+
+  const nombre = _req.query.nombre;
+  var result = " ";
+  examList.forEach(examen => {
+    examen.nombre == nombre ? result = examen.fecha : "";
+  });
+  console.log(`Result - ${result}`)
+  //const animales = await Animal.find();
+  return res.send(`Fecha del examen de ${nombre}: ${result}`)
+})
+
+// SUMA op1?= op2?=
+app.get('/examenes/', async (_req, res) => {
+
+  const nombre = _req.query.nombre;
+  var result = " ";
+  examList.forEach(examen => {
+    examen.nombre == nombre ? result = examen.fecha : "";
+  });
+  console.log(`Result - ${result}`)
+  //const animales = await Animal.find();
+  return res.send(`Fecha del examen de ${nombre}: ${result}`)
+})
 
 app.listen(3000, () => console.log('listening...'))
