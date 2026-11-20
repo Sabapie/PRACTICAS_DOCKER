@@ -78,7 +78,7 @@ app.get('/examenes/:id', async (_req, res) => {
 })
 
 //EXAMENES / nombre?=
-app.get('/examenes/', async (_req, res) => {
+app.get('/examenes', async (_req, res) => {
   const examList = [{
     nombre: 'PSP',
     fecha: '11-11-2026'
@@ -108,16 +108,42 @@ app.get('/examenes/', async (_req, res) => {
 })
 
 // SUMA op1?= op2?=
-app.get('/examenes/', async (_req, res) => {
+app.get('/suma', async (_req, res) => {
 
   const nombre = _req.query.nombre;
-  var result = " ";
-  examList.forEach(examen => {
-    examen.nombre == nombre ? result = examen.fecha : "";
-  });
+  var op1 = Number(_req.query.op1);
+  var op2 = Number(_req.query.op2);
+  var result = op1 + op2;
+
   console.log(`Result - ${result}`)
   //const animales = await Animal.find();
-  return res.send(`Fecha del examen de ${nombre}: ${result}`)
+  return res.send(`Resultado de sumar ${op1} y ${op2} : ${result}`)
+})
+
+// RESTA op1?= op2?=
+app.get('/resta', async (_req, res) => {
+
+  const nombre = _req.query.nombre;
+  var op1 = Number(_req.query.op1);
+  var op2 = Number(_req.query.op2);
+  var result = op1 - op2;
+
+  console.log(`Result - ${result}`)
+  //const animales = await Animal.find();
+  return res.send(`Resultado de sumar ${op1} y ${op2} : ${result}`)
+})
+
+// COMPARAR op1?= op2?=
+app.get('/comparar', async (_req, res) => {
+
+  const nombre = _req.query.nombre;
+  var op1 = _req.query.op1;
+  var op2 = _req.query.op2;
+  var result = op1 === op2? 'iguales' : 'diferentes';
+
+  console.log(`Result - ${result}`)
+  //const animales = await Animal.find();
+  return res.send(`${op1} y ${op2} son: ${result}`)
 })
 
 app.listen(3000, () => console.log('listening...'))
